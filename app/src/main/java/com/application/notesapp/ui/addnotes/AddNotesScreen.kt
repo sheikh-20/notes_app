@@ -1,6 +1,5 @@
 package com.application.notesapp.ui.addnotes
 
-import android.app.Activity
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,7 +11,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Done
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
@@ -34,7 +32,7 @@ import com.application.notesapp.ui.theme.NotesAppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddNotesScreen(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
+fun AddNotesScreen(modifier: Modifier = Modifier, onSaveClick: (String) -> Unit = {}) {
 
     val focusManager = LocalFocusManager.current
 
@@ -58,7 +56,7 @@ fun AddNotesScreen(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
         }
 
         FloatingActionButton(
-            onClick = onClick,
+            onClick = { onSaveClick(inputField) },
             modifier = modifier
                 .fillMaxSize()
                 .wrapContentSize(align = Alignment.BottomEnd)

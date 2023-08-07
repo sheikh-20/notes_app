@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Notes App</string>
     <string name="title_activity_add_notes">AddNotesActivity</string>
+    <string name="title_activity_edit_notes">EditNotesActivity</string>
 </resources>

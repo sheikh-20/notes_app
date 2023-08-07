@@ -22,8 +22,16 @@ android {
             useSupportLibrary = true
         }
     }
+    
+    buildFeatures {
+        compose = true
+        buildConfig = true
+    }
 
     buildTypes {
+        debug {
+            isDebuggable = true
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -38,9 +46,6 @@ android {
     }
     kotlinOptions {
         jvmTarget = "17"
-    }
-    buildFeatures {
-        compose = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.4.7"
@@ -76,11 +81,16 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
+    // Dagger - Hilt
     implementation("com.google.dagger:hilt-android:2.44")
     kapt("com.google.dagger:hilt-android-compiler:2.44")
+    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
 
-    // ViewModel
+    // ViewModel with ktx
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
+
+    // Compose viewmodel utility
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_version")
 
     // Material icon extended
     implementation("androidx.compose.material:material-icons-extended:1.6.0-alpha02")
@@ -89,4 +99,13 @@ dependencies {
     implementation("androidx.room:room-runtime:$room_version")
     ksp("androidx.room:room-compiler:$room_version")
     implementation("androidx.room:room-ktx:$room_version")
+
+    // Timber for log
+    implementation("com.jakewharton.timber:timber:5.0.1")
+
+    // Serialization
+//    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
+
+    // Gson Serialization
+    implementation("com.google.code.gson:gson:2.10.1")
 }

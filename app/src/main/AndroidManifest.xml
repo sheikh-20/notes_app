@@ -13,6 +13,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NotesApp"
         tools:targetApi="31" >
+        <activity android:name=".ui.editnotes.EditNotesActivity"
+            android:exported="false"
+            android:label="@string/title_activity_edit_notes"
+            android:theme="@style/Theme.NotesApp"/>
         <activity
             android:name=".ui.addnotes.AddNotesActivity"
             android:exported="false"
