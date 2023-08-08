@@ -108,4 +108,10 @@ dependencies {
 
     // Gson Serialization
     implementation("com.google.code.gson:gson:2.10.1")
+
+    // Datastore preference
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
+
+    implementation("com.google.accompanist:accompanist-systemuicontroller:0.31.6-rc")
+
 }

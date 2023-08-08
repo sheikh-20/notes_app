@@ -1,4 +1,4 @@
-package com.application.notesapp.data
+package com.application.notesapp.data.localdb
 
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

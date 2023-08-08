@@ -1,4 +1,4 @@
-package com.application.notesapp.data
+package com.application.notesapp.data.localdb
 
 import androidx.room.Dao
 import androidx.room.Delete
@@ -6,11 +6,12 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
+import com.application.notesapp.data.localdb.Note
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface NoteDao {
-    @Query("SELECT * FROM notes ORDER BY text ASC")
+    @Query("SELECT * FROM notes ORDER BY updatedDate DESC")
     fun getAllNotes(): Flow<List<Note>>
 
     @Query("SELECT * FROM notes WHERE id = :id")

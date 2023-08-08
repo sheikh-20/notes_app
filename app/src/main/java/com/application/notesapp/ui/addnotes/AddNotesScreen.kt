@@ -12,6 +12,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Done
+import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -32,11 +33,18 @@ import com.application.notesapp.ui.theme.NotesAppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddNotesScreen(modifier: Modifier = Modifier, onSaveClick: (String) -> Unit = {}) {
+fun AddNotesScreen(modifier: Modifier = Modifier,
+                   selectedNote: String = "",
+                   onUpdateClick: (String) -> Unit = {},
+                   onSaveClick: (String) -> Unit = {}) {
 
     val focusManager = LocalFocusManager.current
 
-    var inputField by remember { mutableStateOf("") }
+    var inputField by remember { mutableStateOf(selectedNote) }
+
+    var updateState by remember { mutableStateOf(false) }
+
+    if (selectedNote.isNotEmpty()) { updateState = true }
 
     Box(modifier = modifier
         .fillMaxSize()
@@ -56,13 +64,14 @@ fun AddNotesScreen(modifier: Modifier = Modifier, onSaveClick: (String) -> Unit 
         }
 
         FloatingActionButton(
-            onClick = { onSaveClick(inputField) },
+            onClick = {
+                if (updateState) onUpdateClick(inputField) else onSaveClick(inputField) },
             modifier = modifier
                 .fillMaxSize()
                 .wrapContentSize(align = Alignment.BottomEnd)
                 .padding(16.dp)
         ) {
-            Icon(imageVector = Icons.Outlined.Done, contentDescription = null)
+            Icon(imageVector = if (updateState) Icons.Outlined.Edit else Icons.Outlined.Done, contentDescription = null)
         }
     }
 }
