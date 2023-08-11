@@ -2,4 +2,6 @@
     <string name="app_name">Notes App</string>
     <string name="title_activity_add_notes">AddNotesActivity</string>
     <string name="title_activity_edit_notes">EditNotesActivity</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="title_activity_archive">ArchiveActivity</string>
 </resources>

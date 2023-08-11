@@ -1,13 +1,16 @@
 package com.application.notesapp.ui.addnotes
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -25,47 +28,86 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.application.notesapp.ui.theme.NotesAppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddNotesScreen(modifier: Modifier = Modifier,
+                   selectedTitle: String = "",
                    selectedNote: String = "",
-                   onUpdateClick: (String) -> Unit = {},
-                   onSaveClick: (String) -> Unit = {}) {
+                   onUpdateClick: (String, String) -> Unit = { _, _ -> },
+                   onSaveClick: (String, String) -> Unit = { _, _ -> }) {
 
     val focusManager = LocalFocusManager.current
 
-    var inputField by remember { mutableStateOf(selectedNote) }
+    var titleInputField by remember { mutableStateOf(selectedTitle) }
+    var notesInputField by remember { mutableStateOf(selectedNote) }
 
     var updateState by remember { mutableStateOf(false) }
 
-    if (selectedNote.isNotEmpty()) { updateState = true }
+    if (selectedTitle.isNotEmpty() || selectedNote.isNotEmpty()) { updateState = true }
 
     Box(modifier = modifier
         .fillMaxSize()
         .padding(16.dp)) {
 
-        Column(modifier = modifier.fillMaxSize()) {
+        Column(modifier = modifier.fillMaxSize(), verticalArrangement = Arrangement.spacedBy(8.dp)) {
 
-            OutlinedTextField(
-                value = inputField,
-                onValueChange = { inputField = it },
+            BasicTextField(
+                value = titleInputField,
+                onValueChange = { titleInputField = it },
                 modifier = modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(20),
-                label = { Text(text = "Enter notes") },
-                keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
-                keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
+                textStyle = TextStyle(fontSize = 18.sp, color = Color.White),
+                maxLines = 1,
+                singleLine = true,
+                keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
+                keyboardActions = KeyboardActions(onNext = { focusManager.moveFocus(FocusDirection.Down) }),
+                cursorBrush = SolidColor(Color.White),
+                decorationBox = {
+                    Row(modifier = modifier
+                        .fillMaxWidth()
+                        .padding(10.dp)) {
+                        if (titleInputField.isEmpty()) {
+                            Text(text = "Enter title", color = Color.LightGray)
+                        }
+                        it()
+                    }
+                }
+            )
+
+            BasicTextField(
+                value = notesInputField,
+                onValueChange = { notesInputField = it },
+                modifier = modifier.fillMaxWidth(),
+                textStyle = TextStyle(fontSize = 18.sp, color = Color.White),
+                keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.None),
+                cursorBrush = SolidColor(Color.White),
+                decorationBox = {
+                    Row(modifier = modifier
+                        .fillMaxWidth()
+                        .padding(10.dp)) {
+                        if (notesInputField.isEmpty()) {
+                            Text(text = "Enter notes", color = Color.LightGray)
+                        }
+                        it()
+                    }
+                }
             )
         }
 
         FloatingActionButton(
             onClick = {
-                if (updateState) onUpdateClick(inputField) else onSaveClick(inputField) },
+                if (updateState) onUpdateClick(titleInputField, notesInputField) else onSaveClick(titleInputField, notesInputField) },
             modifier = modifier
                 .fillMaxSize()
                 .wrapContentSize(align = Alignment.BottomEnd)

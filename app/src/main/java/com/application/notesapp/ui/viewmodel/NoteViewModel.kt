@@ -32,7 +32,7 @@ class NoteViewModel @Inject constructor(private val noteRepository: NoteReposito
         const val TIMEOUT_MILLIS = 5_000L
     }
 
-    private var _selectedNoteUiState = MutableStateFlow(Note(text = ""))
+    private var _selectedNoteUiState = MutableStateFlow(Note(title = "", text = ""))
     val selectedNoteUiState: StateFlow<Note> = _selectedNoteUiState
 
     val noteUiState: StateFlow<NoteUiState> = noteRepository.getAllNotes()
@@ -64,10 +64,10 @@ class NoteViewModel @Inject constructor(private val noteRepository: NoteReposito
         preferenceRepository.updatePreference(value)
     }
 
-    fun saveNotes(text: String = "") = viewModelScope.launch(Dispatchers.IO) {
+    fun saveNotes(title: String = "", text: String = "") = viewModelScope.launch(Dispatchers.IO) {
         try {
             if (text.isNotEmpty()) {
-                noteRepository.insert(Note(text = text))
+                noteRepository.insert(Note(title = title, text = text))
             }
         } catch (exception: IOException) {
             Timber.tag(TAG).e(exception.message.toString())
