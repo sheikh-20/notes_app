@@ -1,6 +1,11 @@
 package com.application.notesapp.ui.addnotes
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import androidx.compose.foundation.LocalIndication
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsFocusedAsState
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -39,6 +44,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.application.notesapp.ui.theme.NotesAppTheme
+import timber.log.Timber
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -49,6 +55,12 @@ fun AddNotesScreen(modifier: Modifier = Modifier,
                    onSaveClick: (String, String) -> Unit = { _, _ -> }) {
 
     val focusManager = LocalFocusManager.current
+
+    val titleInteractionSource = remember { MutableInteractionSource() }
+    val titlePressedState by titleInteractionSource.collectIsFocusedAsState()
+
+    val notesInteractionSource = remember { MutableInteractionSource() }
+    val notesPressedState by notesInteractionSource.collectIsFocusedAsState()
 
     var titleInputField by remember { mutableStateOf(selectedTitle) }
     var notesInputField by remember { mutableStateOf(selectedNote) }
@@ -77,12 +89,13 @@ fun AddNotesScreen(modifier: Modifier = Modifier,
                     Row(modifier = modifier
                         .fillMaxWidth()
                         .padding(10.dp)) {
-                        if (titleInputField.isEmpty()) {
+                        if (titleInputField.isEmpty() && !titlePressedState) {
                             Text(text = "Enter title", color = Color.LightGray)
                         }
                         it()
                     }
-                }
+                },
+                interactionSource = titleInteractionSource
             )
 
             BasicTextField(
@@ -96,12 +109,13 @@ fun AddNotesScreen(modifier: Modifier = Modifier,
                     Row(modifier = modifier
                         .fillMaxWidth()
                         .padding(10.dp)) {
-                        if (notesInputField.isEmpty()) {
+                        if (notesInputField.isEmpty() && !notesPressedState) {
                             Text(text = "Enter notes", color = Color.LightGray)
                         }
                         it()
                     }
-                }
+                },
+                interactionSource = notesInteractionSource
             )
         }
 
