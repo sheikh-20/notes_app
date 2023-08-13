@@ -30,6 +30,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -62,8 +63,8 @@ fun AddNotesScreen(modifier: Modifier = Modifier,
     val notesInteractionSource = remember { MutableInteractionSource() }
     val notesPressedState by notesInteractionSource.collectIsFocusedAsState()
 
-    var titleInputField by remember { mutableStateOf(selectedTitle) }
-    var notesInputField by remember { mutableStateOf(selectedNote) }
+    var titleInputField by rememberSaveable { mutableStateOf(selectedTitle) }
+    var notesInputField by rememberSaveable { mutableStateOf(selectedNote) }
 
     var updateState by remember { mutableStateOf(false) }
 
