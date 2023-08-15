@@ -1,6 +1,8 @@
 package com.application.notesapp.ui.addnotes
 
+import android.app.Activity
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -38,6 +40,7 @@ import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
@@ -56,6 +59,7 @@ fun AddNotesScreen(modifier: Modifier = Modifier,
                    onSaveClick: (String, String) -> Unit = { _, _ -> }) {
 
     val focusManager = LocalFocusManager.current
+    val context = LocalContext.current
 
     val titleInteractionSource = remember { MutableInteractionSource() }
     val titlePressedState by titleInteractionSource.collectIsFocusedAsState()
@@ -130,6 +134,11 @@ fun AddNotesScreen(modifier: Modifier = Modifier,
         ) {
             Icon(imageVector = if (updateState) Icons.Outlined.Edit else Icons.Outlined.Done, contentDescription = null)
         }
+    }
+
+    BackHandler(enabled = true) {
+        if (updateState) onUpdateClick(titleInputField, notesInputField) else onSaveClick(titleInputField, notesInputField)
+        (context as Activity).finish()
     }
 }
 

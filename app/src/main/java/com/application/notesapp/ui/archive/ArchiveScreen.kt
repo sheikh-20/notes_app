@@ -2,6 +2,7 @@ package com.application.notesapp.ui.archive
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -10,7 +11,7 @@ import com.application.notesapp.ui.theme.NotesAppTheme
 
 @Composable
 fun ArchiveScreen(modifier: Modifier = Modifier) {
-    Column {
+    Column(modifier = modifier.fillMaxSize()) {
         Text(text = "Archive Screen")
     }
 }
